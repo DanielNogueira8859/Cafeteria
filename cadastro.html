@@ -37,19 +37,20 @@
         }
 
         .steps-wrapper {
-            display: flex;
-            transition: transform 0.5s ease;
             width: 100%;
-            overflow: hidden;
         }
 
         .step {
-            min-width: 100%;
+            width: 100%;
             box-sizing: border-box;
             padding: 20px;
-            display: flex;
+            display: none; /* Inicialmente oculta todas as etapas */
             flex-direction: column;
             align-items: center;
+        }
+
+        .step.active {
+            display: flex; /* Exibe apenas a etapa ativa */
         }
 
         input[type="text"],
@@ -61,8 +62,8 @@
             margin-bottom: 15px;
             border: none;
             border-radius: 5px;
-            background-color: #d7ccc8; /* Cor leve para contraste */
-            color: #3e2723; /* Texto escuro */
+            background-color: #d7ccc8;
+            color: #3e2723;
             font-size: 16px;
         }
 
@@ -94,58 +95,6 @@
             text-align: center;
             font-family: 'Cursive', sans-serif;
         }
-
-        /* Estilo para telas maiores (desktops e tablets) */
-        @media (min-width: 768px) {
-            .steps-wrapper {
-                display: block;
-                transform: none;
-            }
-
-            .step {
-                display: block;
-                min-width: auto; /* Remove largura mínima de 100% */
-            }
-
-            .navigation-buttons {
-                display: flex;
-                justify-content: center;
-                flex-direction: row;
-            }
-
-            /* Oculta os botões de navegação exceto no último passo */
-            .step .navigation-buttons {
-                display: none;
-            }
-
-            .step:last-of-type .navigation-buttons {
-                display: flex;
-            }
-        }
-
-        /* Estilo para telas menores (celulares) */
-        @media (max-width: 767px) {
-            .steps-wrapper {
-                display: flex;
-                flex-direction: row;
-                transition: none; /* Remove a transição para dispositivos móveis */
-            }
-
-            .step {
-                min-width: 100%; /* Cada passo ocupa a largura total da tela */
-            }
-
-            .navigation-buttons {
-                display: flex;
-                flex-direction: column; /* Botões empilhados verticalmente */
-                align-items: center;
-            }
-
-            .navigation-buttons button {
-                width: 100%;
-                margin: 5px 0; /* Espaço entre os botões */
-            }
-        }
     </style>
 </head>
 <body>
@@ -154,8 +103,7 @@
             <h1>Cadastro de Cliente</h1>
             <form id="cadastroForm">
                 <div class="steps-wrapper">
-                    <!-- Step 1: Nome -->
-                    <div class="step" id="step1">
+                    <div class="step active" id="step1">
                         <p class="message">Como podemos chamar você por aqui?</p>
                         <input type="text" name="nome" placeholder="Nome completo" required>
                         <div class="navigation-buttons">
@@ -163,7 +111,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 2: CPF -->
                     <div class="step" id="step2">
                         <p class="message">Agora, precisamos do seu CPF, para garantir seu lugar especial na nossa cafeteria.</p>
                         <input type="text" name="cpf" placeholder="CPF" required>
@@ -173,7 +120,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 3: Endereço -->
                     <div class="step" id="step3">
                         <p class="message">Onde podemos enviar aquela dose extra de carinho? Seu endereço, por favor.</p>
                         <input type="text" name="endereco" placeholder="Endereço" required>
@@ -183,7 +129,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 4: E-mail -->
                     <div class="step" id="step4">
                         <p class="message">Nos deixe o seu e-mail, para te manter por dentro das novidades.</p>
                         <input type="email" name="email" placeholder="E-mail" required>
@@ -193,7 +138,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 5: Senha -->
                     <div class="step" id="step5">
                         <p class="message">Agora escolha uma senha, para garantir sua presença exclusiva.</p>
                         <input type="password" name="senha" placeholder="Senha" required>
@@ -212,15 +156,10 @@
 
         function updateStep() {
             const steps = document.querySelectorAll('.step');
-            const stepsWrapper = document.querySelector('.steps-wrapper');
-            steps.forEach(step => step.classList.remove('active'));
-
-            // Para dispositivos móveis, ajusta a transição
-            if (window.innerWidth <= 767) {
-                stepsWrapper.style.transform = `translateX(-${(currentStep - 1) * 100}%)`;
-            } else {
-                stepsWrapper.style.transform = 'none';
-            }
+            steps.forEach((step, index) => {
+                // Exibe apenas o passo atual
+                step.classList.toggle('active', index + 1 === currentStep);
+            });
         }
 
         function nextStep() {
@@ -237,12 +176,7 @@
                 updateStep();
             }
         }
-
-        // Inicializa o formulário na primeira etapa
         updateStep();
-
-        // Atualiza a etapa ao redimensionar a janela para garantir o comportamento correto
-        window.addEventListener('resize', updateStep);
     </script>
 </body>
 </html>
