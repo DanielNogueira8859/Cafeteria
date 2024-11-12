@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - Cafeteria</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cafeteria - Carrinho de Compras</h1>
+
+        <div class="produtos">
+            <h2>Itens disponíveis</h2>
+            <div class="produto">
+                <h3>Café Preto</h3>
+                <p>Preço: R$ 5,00</p>
+                <button class="add-carrinho" onclick="adicionarAoCarrinho('Café Preto', 5.00)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <h3>Café com Leite</h3>
+                <p>Preço: R$ 6,00</p>
+                <button class="add-carrinho" onclick="adicionarAoCarrinho('Café com Leite', 6.00)">Adicionar ao carrinho</button>
+            </div>
+            <div class="produto">
+                <h3>Capuccino</h3>
+                <p>Preço: R$ 7,00</p>
+                <button class="add-carrinho" onclick="adicionarAoCarrinho('Capuccino', 7.00)">Adicionar ao carrinho</button>
+            </div>
+        </div>
+
+        <div class="carrinho">
+            <h2>Carrinho de Compras</h2>
+            <ul id="itensCarrinho"></ul>
+            <div class="total">
+                <p>Total: R$ <span id="totalPreco">0.00</span></p>
+            </div>
+            <div class="acoes">
+                <button onclick="finalizarCompra()">Finalizar Compra</button>
+                <button onclick="continuarComprando()">Continuar Comprando</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
