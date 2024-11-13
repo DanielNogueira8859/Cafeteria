@@ -43,6 +43,12 @@ h2 {
     margin-bottom: 10px;
 }
 
+a{
+    color: #4CAF50;
+    text-decoration: dashed;
+    
+}
+
 .produto {
     margin-bottom: 20px;
 }
