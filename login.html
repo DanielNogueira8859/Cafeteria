@@ -72,23 +72,44 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-wrapper">
-            <h1>Login</h1>
-            <p class="message">Bem-vindo(a) de volta! Insira suas credenciais para acessar sua conta.</p>
-            <form id="loginForm">
-                <input type="email" name="email" placeholder="E-mail" required>
-                <input type="password" name="senha" placeholder="Senha" required>
-                <button type="submit" class="login-button">Entrar</button>
-            </form>
+    <body>
+        <div class="container">
+            <div class="form-wrapper">
+                <h1>Login</h1>
+                <p class="message">Bem-vindo(a) de volta! Insira suas credenciais para acessar sua conta.</p>
+                <form id="loginForm">
+                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="password" name="senha" placeholder="Senha" required>
+                    <button type="submit" class="login-button">Entrar</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Adicione aqui a lógica para autenticar o usuário
-            alert('Login realizado com sucesso!');
+        
+        <script src="usuarios.js"></script>
+
+        <script>
+        // Aguarda o carregamento completo do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adiciona o evento ao formulário de login
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita o envio do formulário
+
+                // Obtém os valores dos campos de e-mail e senha
+                const email = document.querySelector('input[name="email"]').value;
+                const senha = document.querySelector('input[name="senha"]').value;
+
+                // Validação do login usando o array global `usuarios`
+                const usuario = usuarios.find(user => user.email === email && user.senha === senha);
+
+                if (usuario) {
+                    alert(`Bem-vindo, ${usuario.nome}!`);
+                    // Redireciona para a página inicial
+                    window.location.href = 'index.html';
+                } else {
+                    alert("E-mail ou senha incorretos. Tente novamente.");
+                }
+            });
         });
     </script>
 </body>

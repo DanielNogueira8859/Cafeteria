@@ -105,20 +105,16 @@
                 <div class="steps-wrapper">
                     <div class="step active" id="step1">
                         <p class="message">Como podemos chamar você por aqui?</p>
-                        <input type="text" name="nome" placeholder="Nome completo" required>
+                        <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
                         <div class="navigation-buttons">
-                            
-                            <p class="message">Já Possuí cadastro? Clique aqui ➔</p>
                             <button type="button" onclick="window.location.href='login.html'">Login</button>
-
                             <button type="button" onclick="nextStep()">Próximo ➔</button>
-                            
                         </div>
                     </div>
 
                     <div class="step" id="step2">
-                        <p class="message">Agora, precisamos do seu CPF, para garantir seu lugar especial na nossa cafeteria.</p>
-                        <input type="text" name="cpf" placeholder="CPF" required>
+                        <p class="message">Agora, precisamos do seu CPF.</p>
+                        <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
                         <div class="navigation-buttons">
                             <button type="button" onclick="prevStep()">◄ Voltar</button>
                             <button type="button" onclick="nextStep()">Próximo ➔</button>
@@ -126,8 +122,8 @@
                     </div>
 
                     <div class="step" id="step3">
-                        <p class="message">Onde podemos enviar aquela dose extra de carinho? Seu endereço, por favor.</p>
-                        <input type="text" name="endereco" placeholder="Endereço" required>
+                        <p class="message">Seu endereço, por favor.</p>
+                        <input type="text" id="endereco" name="endereco" placeholder="Endereço" required>
                         <div class="navigation-buttons">
                             <button type="button" onclick="prevStep()">◄ Voltar</button>
                             <button type="button" onclick="nextStep()">Próximo ➔</button>
@@ -135,8 +131,8 @@
                     </div>
 
                     <div class="step" id="step4">
-                        <p class="message">Nos deixe o seu e-mail, para te manter por dentro das novidades.</p>
-                        <input type="email" name="email" placeholder="E-mail" required>
+                        <p class="message">Nos deixe o seu e-mail.</p>
+                        <input type="email" id="email" name="email" placeholder="E-mail" required>
                         <div class="navigation-buttons">
                             <button type="button" onclick="prevStep()">◄ Voltar</button>
                             <button type="button" onclick="nextStep()">Próximo ➔</button>
@@ -144,8 +140,8 @@
                     </div>
 
                     <div class="step" id="step5">
-                        <p class="message">Agora escolha uma senha, para garantir sua presença exclusiva.</p>
-                        <input type="password" name="senha" placeholder="Senha" required>
+                        <p class="message">Agora escolha uma senha.</p>
+                        <input type="password" id="senha" name="senha" placeholder="Senha" required>
                         <div class="navigation-buttons">
                             <button type="button" onclick="prevStep()">◄ Voltar</button>
                             <button type="submit">Finalizar</button>
@@ -155,14 +151,14 @@
             </form>
         </div>
     </div>
+    <script src="usuarios.js"></script>
 
-    <script>
+     <script>
         let currentStep = 1;
 
         function updateStep() {
             const steps = document.querySelectorAll('.step');
             steps.forEach((step, index) => {
-                // Exibe apenas o passo atual
                 step.classList.toggle('active', index + 1 === currentStep);
             });
         }
@@ -181,6 +177,26 @@
                 updateStep();
             }
         }
+
+        document.getElementById('cadastroForm').onsubmit = function(event) {
+            event.preventDefault();
+
+            if (currentStep === 5) {
+                const nome = document.getElementById('nome').value;
+                const cpf = document.getElementById('cpf').value;
+                const endereco = document.getElementById('endereco').value;
+                const email = document.getElementById('email').value;
+                const senha = document.getElementById('senha').value;
+
+                const usuario = new Usuario(nome, cpf, endereco, email, senha);
+                usuario.salvar();
+
+                window.location.href = 'login.html';
+            } else {
+                alert("Por favor, complete todos os passos.");
+            }
+        };
+
         updateStep();
     </script>
 </body>

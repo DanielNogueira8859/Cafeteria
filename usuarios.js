@@ -1,3 +1,7 @@
+// Array global para armazenar os usuários (carregado do LocalStorage, se existir)
+const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+// Classe Usuario
 class Usuario {
     constructor(nome, cpf, endereco, email, senha) {
         this.nome = nome;
@@ -7,46 +11,67 @@ class Usuario {
         this.senha = senha;
     }
 
-    // Validação simples dos campos
     validarDados() {
         if (!this.nome || !this.cpf || !this.endereco || !this.email || !this.senha) {
-            console.log("Todos os campos devem ser preenchidos.");
+            alert("Todos os campos devem ser preenchidos.");
             return false;
         }
         if (!this.validarEmail(this.email)) {
-            console.log("E-mail inválido.");
+            alert("E-mail inválido.");
             return false;
         }
         if (!this.validarCPF(this.cpf)) {
-            console.log("CPF inválido.");
+            alert("CPF inválido.");
             return false;
         }
         return true;
     }
 
-    // Validação simples de e-mail
     validarEmail(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     }
 
-    // Validação simples de CPF (só verifica o formato com 11 dígitos)
     validarCPF(cpf) {
         return /^\d{11}$/.test(cpf);
     }
 
-    // Método para "salvar" o usuário, simulando um cadastro
     salvar() {
         if (this.validarDados()) {
-            console.log("Usuário cadastrado com sucesso:");
+            usuarios.push(this);
+            this.atualizarLocalStorage();
+            alert("Usuário cadastrado com sucesso!");
             console.log(`Nome: ${this.nome}, CPF: ${this.cpf}, Endereço: ${this.endereco}, E-mail: ${this.email}`);
-            // Aqui você pode adicionar o código para salvar em um banco de dados
             return true;
         }
         return false;
     }
-}
 
-// Exemplo de uso
-const novoUsuario = new Usuario("Maria Silva", "12345678901", "Rua das Flores, 100", "maria@example.com", "senhaSegura123");
-novoUsuario.salvar();
+    atualizarLocalStorage() {
+        // Salva o array de usuários no LocalStorage
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    }
+
+    static exibirUsuarios() {
+        if (usuarios.length === 0) {
+            console.log("Não há usuários cadastrados.");
+            return;
+        }
+        usuarios.forEach(usuario => {
+            console.log(`Nome: ${usuario.nome}, CPF: ${usuario.cpf}, Endereço: ${usuario.endereco}, E-mail: ${usuario.email}`);
+        });
+    }
+
+    // Método de login
+    static fazerLogin(email, senha) {
+        const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+        if (usuario) {
+            alert(`Bem-vindo, ${usuario.nome}!`);
+            console.log(`Usuário autenticado: Nome: ${usuario.nome}, E-mail: ${usuario.email}`);
+            return usuario;
+        } else {
+            alert("E-mail ou senha incorretos.");
+            return null;
+        }
+    }
+}
